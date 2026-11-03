@@ -8,7 +8,17 @@ const H = 600;
 // ── Input ─────────────────────────────────────────────────────────────────────
 const keys = {};        // teclas mantenidas
 const justPressed = {}; // teclas recién presionadas (se consumen una vez)
+const PREVENT = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'];
 
+window.addEventListener('keydown', e => {
+  if (PREVENT.includes(e.code)) e.preventDefault(); // evita el scroll de la página
+  if (!keys[e.code]) justPressed[e.code] = true;    // solo en la primera pulsación, sin autorepetición
+  keys[e.code] = true;
+});
+
+window.addEventListener('keyup', e => {
+  keys[e.code] = false;
+});
 
 function pressed(code) {
   const val = justPressed[code];
